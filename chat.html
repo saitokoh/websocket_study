@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.5.5.min.css" />
+  <link rel="stylesheet" href="style.css" />
+  <title>チャット</title>
+</head>
+<body>
+  <div id="app">
+    <h1>チャットアプリ</h1>
+    <section>
+      <ul ref="displayMessages">
+        <li v-for="(message, index) in messages" :key="index">{{message}}</li>
+      </ul>
+      <div>
+        <input type="text" v-model="writingMessage" @keyup.enter="sendMessage">
+        <button type="button" @click="sendMessage">送信</button>
+      </div>
+    </section>
+    <div>
+      <button class="logout-button" type="button" @click="logout">退室</button>
+    </div>
+
+    <div class="modal-wrap" v-if="!isLogin">
+      <div class="modal">
+        <h2>名前を入力してください</h2>
+        <div>
+          <input type="text" v-model="name" @keyup.enter="login">
+          <button type="button" @click="login">入室</button>
+        </div>
+        <span class="error">{{errorMessage.name}}</span>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+  <script src="chat.js"></script>
+</body>
+</html>
