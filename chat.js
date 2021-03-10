@@ -3,7 +3,7 @@ new Vue({
   data: {
     name: "",
     isLogin: false,
-    messages: ["あああ", "いいい", "ううう"],
+    messages: [],
     writingMessage: "",
     errorMessage: {name: "", writingMessage: ""},
   },
