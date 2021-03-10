@@ -12,7 +12,6 @@ new Vue({
     sendMessage() {
       this.send({
         type: "send",
-        name: this.name,
         text: this.writingMessage
       })
       this.writingMessage = "";
@@ -38,10 +37,6 @@ new Vue({
       })
     },
     leave() {
-      this.ws.send(JSON.stringify({
-        type: "leave",
-        name: this.name
-      }))
       if (this.ws?.readyState === 1) {
         this.ws.close()
       }
@@ -58,12 +53,13 @@ new Vue({
       this.ws.send(JSON.stringify(data))
     },
     setRecieveEvent() {
-      this.ws.addEventListener("message", e => {
-        this.messages.push(e.data)
-        this.$nextTick().then(() => {
-          const displayMessagesEl = this.$refs.displayMessages
-          displayMessagesEl.scrollTop = displayMessagesEl.scrollHeight - displayMessagesEl.clientHeight;
-        })
+      this.ws.addEventListener("message", e => this.addMessages(e.data))
+    },
+    addMessages(data) {
+      this.messages.push(data)
+      this.$nextTick().then(() => {
+        const displayMessagesEl = this.$refs.displayMessages
+        displayMessagesEl.scrollTop = displayMessagesEl.scrollHeight - displayMessagesEl.clientHeight;
       })
     }
   }
