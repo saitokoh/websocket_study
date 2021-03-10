@@ -2,19 +2,14 @@ new Vue({
   el: '#app',
   data: {
     name: "",
-    isLogined: false,
+    isEntered: false,
     messages: [],
     writingMessage: "",
-    errorMessage: {name: "", writingMessage: ""},
+    errorMessage: {name: ""},
     ws: null
   },
   methods: {
     sendMessage() {
-      this.errorMessage.writingMessage = ""
-      if (this.writingMessage.trim() === "") {
-        this.errorMessage.writingMessage = "空白は送信できません"
-        return
-      }
       this.send({
         type: "send",
         name: this.name,
@@ -23,7 +18,7 @@ new Vue({
       this.writingMessage = "";
       
     },
-    login() {
+    enter() {
       this.errorMessage.name = ""
       if (this.name.trim() === "") {
         this.errorMessage.name = "名前を入力してから入室してください"
@@ -33,18 +28,18 @@ new Vue({
       this.ws.addEventListener("open", () => {
         this.setRecieveEvent()
         this.send({
-          type: "login",
+          type: "enter",
           name: this.name
         })
-        this.isLogined = true
+        this.isEntered = true
       })
       this.ws.addEventListener("error", () => {
         this.errorMessage.name = "サーバーに接続できません"
       })
     },
-    logout() {
+    leave() {
       this.ws.send(JSON.stringify({
-        type: "logout",
+        type: "leave",
         name: this.name
       }))
       if (this.ws?.readyState === 1) {
@@ -52,11 +47,11 @@ new Vue({
       }
       this.name = ""
       this.messages = []
-      this.isLogined = false
+      this.isEntered = false
     },
     send(data) {
       if (this.ws?.readyState !== 1) {
-        this.logout()
+        this.leave()
         this.errorMessage.name = "接続が切れたのでログアウトしました"
         return
       }
