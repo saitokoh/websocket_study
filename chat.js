@@ -9,12 +9,8 @@ new Vue({
   },
   methods: {
     sendMessage() {
-      this.messages.push(this.writingMessage);
+      this.addMessages(this.writingMessage);
       this.writingMessage = "";
-      this.$nextTick().then(() => {
-        const displayMessagesEl = this.$refs.displayMessages
-        displayMessagesEl.scrollTop = displayMessagesEl.scrollHeight - displayMessagesEl.clientHeight;
-      })
     },
     enter() {
       this.errorMessage.name = ""
@@ -28,6 +24,13 @@ new Vue({
       this.name = ""
       this.messages = []
       this.isEntered = false
+    },
+    addMessages(data) {
+      this.messages.push(data)
+      this.$nextTick().then(() => {
+        const displayMessagesEl = this.$refs.displayMessages
+        displayMessagesEl.scrollTop = displayMessagesEl.scrollHeight - displayMessagesEl.clientHeight;
+      })
     }
   }
 })
