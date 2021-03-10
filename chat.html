@@ -21,15 +21,15 @@
       </div>
     </section>
     <div>
-      <button class="logout-button" type="button" @click="logout">退室</button>
+      <button class="logout-button" type="button" @click="leave">退室</button>
     </div>
 
-    <div class="modal-wrap" v-if="!isLogin">
+    <div class="modal-wrap" v-if="!isEntered">
       <div class="modal">
         <h2>名前を入力してください</h2>
         <div>
-          <input type="text" v-model="name" @keyup.enter="login">
-          <button type="button" @click="login">入室</button>
+          <input type="text" v-model="name" @keyup.enter="enter">
+          <button type="button" @click="enter">入室</button>
         </div>
         <span class="error">{{errorMessage.name}}</span>
       </div>
